@@ -5,16 +5,30 @@ class RomanNumeral(numeral: String) {
     val numeral = numeral.toUpperCase()
 
     val value: Int by lazy {
-        var result = 0
-        for (i in 0 until numeral.length) {
-            var v1 = Numeral.valueOf(numeral[i].toString()).value
-            result += Numeral.valueOf(numeral[i].toString()).value
-        }
-        result
+        extractSymbols().sumBy { it.value }
     }
 
-    override fun toString(): String {
-        return numeral
+    private fun extractSymbols(): List<Symbol> {
+        val chars = numeral.toMutableList()
+        val symbols = ArrayList<Symbol>()
+        while (chars.isNotEmpty()) {
+            val s1 = chars[0]
+            if (chars.size > 1) {
+                val s2 = chars[1]
+                if (Symbol.exists("$s1$s2")) {
+                    symbols.add(Symbol.valueOf("$s1$s2"))
+                    chars.removeAt(1)
+                    chars.removeAt(0)
+                } else {
+                    symbols.add(Symbol.valueOf("$s1"))
+                    chars.removeAt(0)
+                }
+            } else {
+                symbols.add(Symbol.valueOf("$s1"))
+                chars.removeAt(0)
+            }
+        }
+        return symbols
     }
 
     override fun equals(other: Any?): Boolean {
@@ -31,9 +45,13 @@ class RomanNumeral(numeral: String) {
     override fun hashCode(): Int {
         return numeral.hashCode()
     }
+
+    override fun toString(): String {
+        return numeral
+    }
 }
 
-enum class Numeral(val value: Int) {
+enum class Symbol(val value: Int) {
     I(1),
     IV(4),
     V(5),
@@ -49,6 +67,13 @@ enum class Numeral(val value: Int) {
     M(1000);
 
     companion object {
-        val reverseSorted = values().sortedArrayDescending()
+
+        fun exists(name: String): Boolean {
+            return values()
+                .asSequence()
+                .filter { it.name == name }
+                .firstOrNull()?.let { true } ?: false
+
+        }
     }
 }

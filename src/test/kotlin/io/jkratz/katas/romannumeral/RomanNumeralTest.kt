@@ -103,4 +103,26 @@ class RomanNumeralTest {
         val numeral = RomanNumeral("MMXIII")
         Assertions.assertEquals(2013, numeral.value)
     }
+
+    @Test
+    @DisplayName("Test Roman Symbol LIV")
+    fun testNumeralLIV() {
+        val numeral = RomanNumeral("LIV")
+        Assertions.assertEquals(54, numeral.value)
+    }
+}
+
+class SymbolTest {
+
+    @Test
+    @DisplayName("Test Invalid Roman Numeral Symbol A")
+    fun testExistsWithInvalidSymbol() {
+        Assertions.assertEquals(false, Symbol.exists("A"))
+    }
+
+    @Test
+    @DisplayName("Test Valid Roman Numeral Symbol M")
+    fun testExistsWithM() {
+        Assertions.assertEquals(true, Symbol.exists("M"))
+    }
 }
