@@ -110,6 +110,39 @@ class RomanNumeralTest {
         val numeral = RomanNumeral("LIV")
         Assertions.assertEquals(54, numeral.value)
     }
+
+    @Test
+    @DisplayName("Test Equals Should Be True")
+    fun testEquals_shouldBeEqual() {
+        val numeral1 = RomanNumeral("III")
+        val numeral2 = RomanNumeral("III")
+        Assertions.assertTrue(numeral1 == numeral2)
+    }
+
+    @Test
+    @DisplayName("Test Equals Should Be False")
+    fun testEquals_shouldNotBeEqual() {
+        val numeral1 = RomanNumeral("III")
+        val numeral2 = RomanNumeral("IV")
+        Assertions.assertFalse(numeral1 == numeral2)
+    }
+
+    @Test
+    @DisplayName("Test Hash")
+    fun testHashCode() {
+        val numerals = mapOf(
+            RomanNumeral("III") to 3,
+            RomanNumeral("IV") to 4
+        )
+        Assertions.assertTrue(numerals.size == 2)
+    }
+
+    @Test
+    @DisplayName("Test ToString")
+    fun testToString() {
+        val numeral = RomanNumeral("LIV")
+        Assertions.assertEquals("LIV", numeral.toString())
+    }
 }
 
 class SymbolTest {
